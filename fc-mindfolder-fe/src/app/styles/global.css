@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* add the code bellow */ 
+@layer utilities {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+   /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+  }
+}
+
+.bg-blur {
+    backdrop-filter: blur(105px);
+    opacity: 50px;
+    /* transition: backdrop-filter 0.3s ease-in-out; */
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+  transform: translateY(0);
+    }
+    to {
+      opacity: 1;
+       transform: translateY(-6px);   
+    }
+  }
+
+  body {
+    font-family: "Manrope", sans-serif !important;
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.6s forwards;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+  }
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #c62b6d;
+    border-radius: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slide-down {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 300ms ease-in-out;
+  }
+  
+  .animate-slide-down {
+    animation: slide-down 300ms ease-in-out;
+  }
+  body {
+    font-family: "Manrope", sans-serif !important;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -20px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+  

@@ -1,0 +1,2 @@
+- docker run --name mindfolder-postgres -p 5432:5432 -e POSTGRES_PASSWORD=pleaseletmein -d postgres
+- pnpm dlx @better-auth/cli@latest generate
