@@ -13,7 +13,7 @@
 	const AppState = getAppState();
 </script>
 
-<form class="relative w-full">
+<form class="relative w-full px-2">
 	<Input placeholder="Search" class="h-10 w-full rounded-full" bind:value={AppState.prompt} />
 	<Button
 		onclick={async () => {
@@ -53,7 +53,7 @@
 				};
 			}
 		}}
-		class="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-all duration-300 disabled:opacity-50"
+		class="absolute right-3 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-all duration-300 disabled:opacity-50"
 		type="button"
 	>
 		<Mic

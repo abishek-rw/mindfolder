@@ -5,6 +5,46 @@ import { getContext, setContext } from 'svelte';
 export class AppState {
     appPage: 'home' | 'askme' | 'profile' = $state('home');
     prompt: string = $state('');
+    folders = $state([{
+        folderId: 'abc',
+        folderName: 'certificates',
+        files: [
+            {
+                fileId: '123',
+                fileName: 'certificate.pdf',
+            },
+            {
+                fileId: '456',
+                fileName: 'certificate2.xlsx',
+            },
+        ]
+    }, {
+        folderId: 'abc',
+        folderName: 'certificates',
+        files: [
+            {
+                fileId: '123',
+                fileName: 'certificate.pdf',
+            },
+            {
+                fileId: '456',
+                fileName: 'certificate2.xlsx',
+            },
+        ]
+    }, {
+        folderId: 'abc',
+        folderName: 'certificates',
+        files: [
+            {
+                fileId: '123',
+                fileName: 'certificate.pdf',
+            },
+            {
+                fileId: '456',
+                fileName: 'certificate2.xlsx',
+            },
+        ]
+    }]);
 
     constructor() {
         $effect(() => {
@@ -22,9 +62,9 @@ export class AppState {
 const AppStateKey = Symbol('AppState');
 
 export function setAppState() {
-	return setContext(AppStateKey, new AppState());
+    return setContext(AppStateKey, new AppState());
 }
 
 export function getAppState() {
-	return getContext<ReturnType<typeof setAppState>>(AppStateKey);
+    return getContext<ReturnType<typeof setAppState>>(AppStateKey);
 }

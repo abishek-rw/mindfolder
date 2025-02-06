@@ -1,3 +1,4 @@
+import type { File, Folder } from '$lib/server/db/schema';
 import type { User, Session } from 'better-auth/types';
 
 declare global {
@@ -5,8 +6,9 @@ declare global {
 		interface Locals {
 			session: Session | undefined;
 			user: User | undefined;
+			folders: (Folder & { files: File[] })[] | undefined;
 		}
 	}
 }
 
-export {};
+export { };

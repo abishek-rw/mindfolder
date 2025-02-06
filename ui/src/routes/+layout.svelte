@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { beforeNavigate, goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { toast } from 'svelte-sonner';
 	import '../app.css';
@@ -20,6 +20,6 @@
 </script>
 
 <Toaster />
-<div class="mx-auto flex h-[100dvh] w-full max-w-sm flex-col">
+<div class="mx-auto flex h-[100dvh] w-full max-w-sm flex-col font-manrope border">
 	{@render children()}
 </div>
