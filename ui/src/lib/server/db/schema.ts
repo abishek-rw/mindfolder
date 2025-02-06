@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, integer, timestamp, boolean, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, timestamp, boolean, uniqueIndex, serial } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
 	id: text("id").primaryKey(),
@@ -12,7 +12,7 @@ export const user = pgTable("user", {
 });
 
 export const folder = pgTable("folder", {
-	id: text("id").primaryKey(),
+	id: serial().primaryKey(),
 	name: text('name').notNull(),
 	userId: text('user_id').notNull().references(() => user.id),
 	createdAt: timestamp('created_at').notNull(),
@@ -20,9 +20,9 @@ export const folder = pgTable("folder", {
 });
 
 export const file = pgTable("file", {
-	id: text("id").primaryKey(),
+	id: serial().primaryKey(),
 	name: text('name').notNull(),
-	folderId: text('folder_id').notNull().references(() => folder.id),
+	folderId: integer('folder_id').notNull().references(() => folder.id),
 	userId: text('user_id').notNull().references(() => user.id),
 	createdAt: timestamp('created_at').notNull(),
 	updatedAt: timestamp('updated_at').notNull()

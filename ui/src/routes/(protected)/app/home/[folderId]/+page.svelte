@@ -1,17 +1,48 @@
 <script lang="ts">
-	import { getAppState } from '$lib/stores/app.svelte';
+	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
 	import Back from '../../../../(anti-protected)/Back.svelte';
+	import FileBar from './FileBar.svelte';
+	import FileFolderHints from './FileFolderHints.svelte';
 
 	let { data } = $props();
-    const AppState = getAppState();
-    let files = $state(AppState.folders.find((folder) => folder.folderId === data.folderId)?.files ?? []);
+	let selectedFiles: number[] = $state([]);
+	let layout: 'list' | 'grid' = $state('list');
 </script>
 
 <svelte:head>
-	<title>Home | {data.folderId}</title>
+	<title>Home | {data.folder.id}</title>
 </svelte:head>
 
-<div class="relative w-full flex items-center pt-3 capitalize pl-16">
+<div class="relative flex w-full items-center pl-16 pt-3 capitalize">
 	<Back />
-	{data.folderId}
+	{data.folder.name}
 </div>
+<FileBar folder={data.folder} bind:selectedFiles={selectedFiles} bind:layout={layout} />
+<div class="grow p-2">
+	{#each data.folder.files as file}
+		<div class="flex items-center justify-center gap-2 rounded-lg p-2">
+			<Checkbox
+				onCheckedChange={(val) => {
+					if (val) {
+						selectedFiles = [...selectedFiles, file.id];
+					} else {
+						selectedFiles = selectedFiles.filter((id) => id !== file.id);
+					}
+				}}
+				checked = {selectedFiles.includes(file.id)}
+			/>
+			<div class="flex grow items-center justify-center gap-2">
+				<div class="flex grow flex-col justify-center">
+					<div>
+						{file.name}
+					</div>
+					<div class="flex text-xs">
+						{file.updatedAt.toLocaleDateString()}
+						{file.updatedAt.toLocaleTimeString()}
+					</div>
+				</div>
+			</div>
+		</div>
+	{/each}
+</div>
+<FileFolderHints />

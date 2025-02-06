@@ -15,10 +15,10 @@
 			{#each AppState.folders as folder}
 				<Button
 					class="relative col-span-1 h-20 rounded-lg bg-gray-100 p-2"
-					onclick={() => goto(`/app/home/${folder.folderId}`)}
-                    variant="outline"
+					onclick={() => goto(`/app/home/${folder.id}`)}
+					variant="outline"
 				>
-					<div class=" pb-2 font-bold capitalize">{folder.folderName}</div>
+					<div class=" pb-2 font-bold capitalize">{folder.name}</div>
 					<div class="absolute bottom-2 left-2 text-xs text-gray-500">{folder.files.length}</div>
 				</Button>
 			{/each}
