@@ -14,6 +14,6 @@
 </svelte:head>
 
 Home
-<Progress mb={data.mbUsed} />
+<Progress mb={data.mbUsed ?? 0} />
 <UploadFreeSpace />
 <FoldersView />
