@@ -11,22 +11,22 @@ export const user = pgTable("user", {
 	updatedAt: timestamp('updated_at').notNull()
 });
 
-export const folder = pgTable("folder", {
-	id: serial().primaryKey(),
-	name: text('name').notNull(),
-	userId: text('user_id').notNull().references(() => user.id),
-	createdAt: timestamp('created_at').notNull(),
-	updatedAt: timestamp('updated_at').notNull()
-});
+// export const folder = pgTable("folder", {
+// 	id: serial().primaryKey(),
+// 	name: text('name').notNull(),
+// 	userId: text('user_id').notNull().references(() => user.id),
+// 	createdAt: timestamp('created_at').notNull(),
+// 	updatedAt: timestamp('updated_at').notNull()
+// });
 
-export const file = pgTable("file", {
-	id: serial().primaryKey(),
-	name: text('name').notNull(),
-	folderId: integer('folder_id').notNull().references(() => folder.id),
-	userId: text('user_id').notNull().references(() => user.id),
-	createdAt: timestamp('created_at').notNull(),
-	updatedAt: timestamp('updated_at').notNull()
-});
+// export const file = pgTable("file", {
+// 	id: serial().primaryKey(),
+// 	name: text('name').notNull(),
+// 	folderId: integer('folder_id').notNull().references(() => folder.id),
+// 	userId: text('user_id').notNull().references(() => user.id),
+// 	createdAt: timestamp('created_at').notNull(),
+// 	updatedAt: timestamp('updated_at').notNull()
+// });
 
 export const session = pgTable("session", {
 	id: text("id").primaryKey(),
@@ -66,21 +66,9 @@ export const verification = pgTable("verification", {
 
 // relations
 export const userRelations = relations(user, ({ many }) => ({
-	folders: many(folder),
-	files: many(file),
 	accounts: many(account),
 	verifications: many(verification)
 }))
-
-export const folderRelations = relations(folder, ({ many, one }) => ({
-	files: many(file),
-	user: one(user, { fields: [folder.userId], references: [user.id] })
-}));
-
-export const fileRelations = relations(file, ({ one }) => ({
-	folder: one(folder, { fields: [file.folderId], references: [folder.id] }),
-	user: one(user, { fields: [file.userId], references: [user.id] })
-}));
 
 export const sessionRelations = relations(session, ({ one }) => ({
 	user: one(user, { fields: [session.userId], references: [user.id] })
@@ -96,8 +84,8 @@ export const verificationRelations = relations(verification, ({ one }) => ({
 
 // types
 export type User = typeof user.$inferSelect;
-export type Folder = typeof folder.$inferSelect;
-export type File = typeof file.$inferSelect;
+// export type Folder = typeof folder.$inferSelect;
+// export type File = typeof file.$inferSelect;
 export type Session = typeof session.$inferSelect;
 export type Account = typeof account.$inferSelect;
 export type Verification = typeof verification.$inferSelect;

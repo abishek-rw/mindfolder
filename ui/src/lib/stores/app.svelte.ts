@@ -1,15 +1,15 @@
-import { browser } from '$app/environment';
 import { page } from '$app/state';
-import type { File, Folder } from '$lib/server/db/schema';
 import { getContext, setContext } from 'svelte';
+import type { FoldersReturnType } from '../../hooks.server';
 
 export class AppState {
     appPage: 'home' | 'askme' | 'profile' = $state('home');
     prompt: string = $state('');
-    folders: (Folder & { files: File[] })[] = $state([]);
+    folders: FoldersReturnType[] = $state([]);
     isLoading = $state(false);
 
     constructor() {
+        $inspect(this.folders);
         $effect(() => {
             if (page.url.pathname === '/app/askme') {
                 this.appPage = 'askme';

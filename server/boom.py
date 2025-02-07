@@ -41,6 +41,7 @@ from docling_core.transforms.chunker.hybrid_chunker import HybridChunker
 from docling.pipeline.simple_pipeline import SimplePipeline
 from google.generativeai import GenerativeModel
 import google.generativeai as genai
+from chromadb.config import Settings
 
 
 load_dotenv()
@@ -77,7 +78,7 @@ blob_service_client = BlobServiceClient.from_connection_string(connection_string
 
 print("GMMA")
 # ChromaDB setup
-chroma_client = chromadb.PersistentClient(path="chroma_data")
+chroma_client = chromadb.PersistentClient(path="chroma_data", settings=Settings(anonymized_telemetry=False))
 collection = chroma_client.get_or_create_collection(
     name="mindfolder",
     metadata={"hnsw:space": "cosine"}

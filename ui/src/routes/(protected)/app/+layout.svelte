@@ -4,7 +4,6 @@
 	import { getAppState, setAppState } from '$lib/stores/app.svelte';
 	import { House, MessageSquareText, User } from 'lucide-svelte';
 	import Textbar from './Textbar.svelte';
-	import FileFolderHints from './home/[folderId]/FileFolderHints.svelte';
 
 	let { children } = $props();
 	setAppState();

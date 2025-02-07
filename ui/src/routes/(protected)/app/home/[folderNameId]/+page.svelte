@@ -5,17 +5,17 @@
 	import FileFolderHints from './FileFolderHints.svelte';
 
 	let { data } = $props();
-	let selectedFiles: number[] = $state([]);
+	let selectedFiles: string[] = $state([]);
 	let layout: 'list' | 'grid' = $state('list');
 </script>
 
 <svelte:head>
-	<title>Home | {data.folder.id}</title>
+	<title>Home | {data.folder.folderName}</title>
 </svelte:head>
 
 <div class="relative flex w-full items-center pl-16 pt-3 capitalize">
 	<Back />
-	{data.folder.name}
+	{data.folder.folderName}
 </div>
 <FileBar folder={data.folder} bind:selectedFiles={selectedFiles} bind:layout={layout} />
 <div class="grow p-2">
@@ -24,21 +24,21 @@
 			<Checkbox
 				onCheckedChange={(val) => {
 					if (val) {
-						selectedFiles = [...selectedFiles, file.id];
+						selectedFiles = [...selectedFiles, file.file_name];
 					} else {
-						selectedFiles = selectedFiles.filter((id) => id !== file.id);
+						selectedFiles = selectedFiles.filter((file_name) => file_name !== file.file_name);
 					}
 				}}
-				checked = {selectedFiles.includes(file.id)}
+				checked = {selectedFiles.includes(file.file_name)}
 			/>
 			<div class="flex grow items-center justify-center gap-2">
 				<div class="flex grow flex-col justify-center">
 					<div>
-						{file.name}
+						{file.file_name}
 					</div>
 					<div class="flex text-xs">
-						{file.updatedAt.toLocaleDateString()}
-						{file.updatedAt.toLocaleTimeString()}
+						{file.upload_date}
+						{file.upload_time}
 					</div>
 				</div>
 			</div>

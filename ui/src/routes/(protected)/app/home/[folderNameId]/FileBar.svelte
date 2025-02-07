@@ -1,22 +1,22 @@
 <script lang="ts">
 	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
-	import type { File, Folder } from '$lib/server/db/schema';
 	import * as Tabs from '$lib/components/ui/tabs/index.js';
 	import { LayoutGrid, Logs } from 'lucide-svelte';
+	import type { FoldersReturnType } from '../../../../../hooks.server';
 	let {
 		folder,
 		selectedFiles = $bindable(),
 		layout = $bindable()
 	}: {
-		folder: Folder & { files: File[] };
-		selectedFiles: number[];
+		folder: FoldersReturnType;
+		selectedFiles: string[];
 		layout: 'list' | 'grid';
 	} = $props();
 	function onCheckedChange(isChecked: boolean) {
 		if (!isChecked) {
 			selectedFiles = [];
 		} else {
-			selectedFiles = folder.files.map((file) => file.id);
+			selectedFiles = folder.files.map((file) => file.file_name);
 		}
 	}
 </script>
