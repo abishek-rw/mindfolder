@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { getAppState } from '$lib/stores/app.svelte';
+	const AppState = getAppState();
 </script>
 
 {#snippet FileFolderHint(text: string)}
-	<div class="flex w-40 flex-shrink-0 items-center rounded-xl bg-gray-100 p-4 text-center text-xs">
+	<button onclick={()=>{
+		AppState.prompt = text
+		AppState.sendPrompt()
+	}} class="flex w-40 flex-shrink-0 items-center rounded-xl bg-gray-100 p-4 text-center text-xs">
 		{text}
-	</div>
+	</button>
 {/snippet}
 
 <div class="w-full px-2">

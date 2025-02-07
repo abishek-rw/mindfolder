@@ -1,6 +1,8 @@
 import { page } from '$app/state';
 import { getContext, setContext } from 'svelte';
 import type { FoldersReturnType } from '../../hooks.server';
+import postPrompt from '$lib/fetchers/prompt';
+import { toast } from 'svelte-sonner';
 
 export class AppState {
     appPage: 'home' | 'askme' | 'profile' = $state('home');
@@ -10,6 +12,7 @@ export class AppState {
 
     constructor() {
         $inspect(this.folders);
+        $inspect(page.url.pathname);
         $effect(() => {
             if (page.url.pathname === '/app/askme') {
                 this.appPage = 'askme';
@@ -23,9 +26,20 @@ export class AppState {
 
     async sendPrompt() {
         this.isLoading = true;
-        // wait for 2 seconds
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        this.isLoading = false;
+        // try to regex match /app/home/Professional_Portfolio/<filename> from page.url.pathname
+        const match = page.url.pathname.match(/\/app\/home\/(.*)\/(.*)/);
+        try {
+
+            const resp = await postPrompt(this.prompt, match ? match[1] : undefined);
+            const response = await resp.json();
+            console.log(response);
+            this.prompt = '';
+        } catch (error) {
+            console.error(error);
+            toast.error('Something went wrong. Please try again.');
+        } finally {
+            this.isLoading = false;
+        }
         return prompt;
     }
 }
