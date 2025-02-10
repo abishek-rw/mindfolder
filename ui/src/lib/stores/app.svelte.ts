@@ -4,6 +4,11 @@ import type { FoldersReturnType } from '../../hooks.server';
 import postPrompt from '$lib/fetchers/prompt';
 import { toast } from 'svelte-sonner';
 
+function extractPathSegment(path: string): string | null {
+    const match = path.match(/^\/app\/home\/?(.*)$/);
+    return match && match[1] ? match[1] : null;
+}
+
 export class AppState {
     appPage: 'home' | 'askme' | 'profile' = $state('home');
     prompt: string = $state('');
@@ -27,10 +32,10 @@ export class AppState {
     async sendPrompt() {
         this.isLoading = true;
         // try to regex match /app/home/Professional_Portfolio/<filename> from page.url.pathname
-        const match = page.url.pathname.match(/\/app\/home\/(.*)\/(.*)/);
+        const match = extractPathSegment(page.url.pathname);
+        console.log(match);
         try {
-
-            const resp = await postPrompt(this.prompt, match ? match[1] : undefined);
+            const resp = await postPrompt(this.prompt, match ?? undefined);
             const response = await resp.json();
             console.log(response);
             this.prompt = '';
