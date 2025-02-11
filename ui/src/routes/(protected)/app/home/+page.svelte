@@ -7,6 +7,9 @@
 	$inspect(data);
 	const AppData = getAppState();
 	AppData.folders = data.folders;
+	$effect(() => {
+		AppData.folders = data.folders;
+	})
 </script>
 
 <svelte:head>

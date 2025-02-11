@@ -186,7 +186,7 @@ def chunk_text(text):
     chunker = HybridChunker()
     chunk_iter = chunker.chunk(text)
     for chunk in chunk_iter:
-        chunkys.append(chunk.text)
+        chunkys.append(chunker.serialize(chunk=chunk))
     return chunkys
 
 def read_file(file_path: str) -> str:

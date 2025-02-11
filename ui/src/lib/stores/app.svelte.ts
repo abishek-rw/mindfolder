@@ -100,12 +100,13 @@ export class AppState {
     appPage: 'home' | 'askme' | 'profile' = $state('home');
     prompt: string = $state('');
     folders: FoldersReturnType[] = $state([]);
+    files = $derived.by(() => this.folders.map((folder) => folder.files).flat());
     isLoading = $state(false);
     KVs: {
         req: ApiInput;
         resp: ApiResponse;
     }[] = $state([
-            {
+        {
             req: {
                 "folder_name": "Professional_Portfolio",
                 "user_prompt": "Files uploaded in the last 5 days"
@@ -119,6 +120,7 @@ export class AppState {
     ]);
 
     constructor() {
+        $inspect(this.files);
         $inspect(this.folders);
         $inspect(this.KVs);
         $effect(() => {
@@ -136,13 +138,14 @@ export class AppState {
         this.isLoading = true;
         // try to regex match /app/home/Professional_Portfolio/<filename> from page.url.pathname
         const match = extractPathSegment(page.url.pathname);
+        const decodedMatch = decodeURIComponent(match ?? '');
         try {
-            const resp = await postPrompt(this.prompt, match ?? undefined);
+            const resp = await postPrompt(this.prompt, match ? decodedMatch : undefined);
             const response = await resp.json() as ApiResponse;
             // Append to KVs
             this.KVs.push({
                 req: {
-                    folder_name: match ?? '',
+                    folder_name: match ? decodedMatch : '',
                     user_prompt: this.prompt
                 }, resp: response
             });
