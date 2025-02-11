@@ -120,9 +120,6 @@ export class AppState {
     ]);
 
     constructor() {
-        $inspect(this.files);
-        $inspect(this.folders);
-        $inspect(this.KVs);
         $effect(() => {
             if (page.url.pathname === '/app/askme') {
                 this.appPage = 'askme';

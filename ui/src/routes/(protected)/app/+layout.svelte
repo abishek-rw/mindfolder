@@ -7,9 +7,14 @@
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
 	import ProfileDrawer from './ProfileDrawer.svelte';
 
-	let { children } = $props();
+	let { children, data } = $props();
 	setAppState();
 	const AppState = getAppState();
+	$inspect(data);
+	AppState.folders = data.folders;
+	$effect(() => {
+		AppState.folders = data.folders;
+	});
 	let isDrawerOpen = $state(false);
 </script>
 

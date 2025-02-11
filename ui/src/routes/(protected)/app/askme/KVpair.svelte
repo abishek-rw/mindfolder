@@ -49,16 +49,16 @@
 					e.preventDefault();
 					let filteredFiles = AppState.files.filter((file) => file.file_name === resp[0].file_name);
 					if (filteredFiles.length > 0) {
-						filteredFiles.forEach((file) => {
-							if (navigator.share) {
-								navigator.share({
-									title: file.file_name,
-									url: file.download_url
-								});
-							} else {
+						if (navigator.share) {
+							navigator.share({
+								title: "Here's some files!",
+								text: filteredFiles.map((file) => file.download_url).join('\n')
+							});
+						} else {
+							filteredFiles.forEach((file) => {
 								window.open(file.download_url, '_blank');
-							}
-						});
+							});
+						}
 					}
 				}}
 				class="absolute bottom-0 right-2 flex aspect-square h-6 w-6 translate-y-1/2 items-center justify-center rounded-full p-0"

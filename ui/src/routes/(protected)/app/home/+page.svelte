@@ -4,12 +4,7 @@
 	import Progress from './Progress.svelte';
 	import UploadFreeSpace from './UploadFreeSpace.svelte';
 	let { data } = $props();
-	$inspect(data);
 	const AppData = getAppState();
-	AppData.folders = data.folders;
-	$effect(() => {
-		AppData.folders = data.folders;
-	})
 </script>
 
 <svelte:head>

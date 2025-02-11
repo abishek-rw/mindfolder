@@ -32,25 +32,19 @@
 			<Button
 				onclick={(e) => {
 					e.preventDefault();
-					// download selected files using their download link
-					selectedFiles.forEach((file_name) => {
-						const file = folder.files.find((file) => file.file_name === file_name);
-						// check if navigator share is available
-						if (file) {
-							if (navigator.share) {
-								navigator.share({
-									title: file.file_name,
-									url: file.download_url
-								});
-							} else {
-								// const link = document.createElement('a');
-								// link.href = file.download_url;
-								// link.download = file.file_name;
-								// link.click();
-								window.open(file.download_url, '_blank');
-							}
-						}
-					});
+					let filteredSelectedFiles = folder.files.filter((file) =>
+						selectedFiles.includes(file?.file_name)
+					);
+					if (navigator.share) {
+						navigator.share({
+							title: "Here's some files!",
+							text: filteredSelectedFiles.map((file) => file.download_url).join('\n')
+						});
+					} else {
+						filteredSelectedFiles.forEach((file) => {
+							window.open(file.download_url, '_blank');
+						});
+					}
 				}}
 				class="flex aspect-square items-center justify-center rounded-full p-1"
 			>

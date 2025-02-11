@@ -8,4 +8,9 @@ export const load = async ({ locals, url }) => {
     if(url.pathname === '/app') {
         return redirect(302, '/app/home');
     }
+    if (!locals.folders) return redirect(302, '/app?error=no-folders-found');
+    return {
+        folders: locals.folders,
+        mbUsed: locals.mbUsed
+    }
 };
