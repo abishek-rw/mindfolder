@@ -71,8 +71,6 @@ export interface FileListResponse {
     user_email: string;
     folder_name: string | null;
     response: GroupedResponse<File> | File[];
-    chunks_used: number | null;
-    total_chunks_available: number | null;
 }
 
 // Response format for file content
@@ -81,8 +79,6 @@ export interface FileContentResponse {
     user_email: string;
     cluster_id: string;
     response: string;
-    chunks_used: number;
-    total_chunks_available: number;
 }
 
 // Type guard to check if response is grouped
@@ -109,17 +105,17 @@ export class AppState {
         req: ApiInput;
         resp: ApiResponse;
     }[] = $state([
-        //     {
-        //     req: {
-        //         "folder_name": "Professional_Portfolio",
-        //         "user_prompt": "Files uploaded in the last 5 days"
-        //     },
-        //     resp: {
-        //         "user_email": "abishekdevendran@gmail.com",
-        //         "folder_name": "Professional_Portfolio",
-        //         "response": {}
-        //     }
-        // }
+            {
+            req: {
+                "folder_name": "Professional_Portfolio",
+                "user_prompt": "Files uploaded in the last 5 days"
+            },
+            resp: {
+                "user_email": "abishekdevendran@gmail.com",
+                "folder_name": "Professional_Portfolio",
+                "response": []
+            }
+        }
     ]);
 
     constructor() {

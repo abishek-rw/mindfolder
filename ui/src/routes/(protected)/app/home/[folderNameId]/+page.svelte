@@ -3,6 +3,7 @@
 	import Back from '../../../../(anti-protected)/Back.svelte';
 	import FileBar from './FileBar.svelte';
 	import FileFolderHints from './FileFolderHints.svelte';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
 
 	let { data } = $props();
 	let selectedFiles: string[] = $state([]);
@@ -18,9 +19,10 @@
 	{data.folder.folderName}
 </div>
 <FileBar folder={data.folder} bind:selectedFiles={selectedFiles} bind:layout={layout} />
-<div class="grow p-2">
+<ScrollArea orientation="vertical" class="grow min-h-0 h-full bg-gray-200 rounded-lg shadow-inner flex flex-col gap-2 overflow-y-auto">
+<div class="w-full flex flex-col gap-2 p-2">
 	{#each data.folder.files as file}
-		<div class="flex items-center justify-center gap-2 rounded-lg p-2">
+		<div class="flex items-center justify-center gap-2 p-2 rounded-lg shadow-lg bg-white">
 			<Checkbox
 				onCheckedChange={(val) => {
 					if (val) {
@@ -45,4 +47,5 @@
 		</div>
 	{/each}
 </div>
+</ScrollArea>
 <FileFolderHints />

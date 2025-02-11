@@ -58,7 +58,7 @@
 			</Button>
 		{/if}
 		<Tabs.Root bind:value={layout}>
-			<Tabs.List class="h-7">
+			<Tabs.List class="h-7 bg-gray-50">
 				<Tabs.Trigger value="list" class="w-6 px-1"><Logs size="" /></Tabs.Trigger>
 				<Tabs.Trigger value="grid" class="w-6 px-1"><LayoutGrid size="" /></Tabs.Trigger>
 			</Tabs.List>

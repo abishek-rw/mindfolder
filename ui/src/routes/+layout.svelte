@@ -20,6 +20,6 @@
 </script>
 
 <Toaster />
-<div class="mx-auto flex h-[100dvh] w-full max-w-sm flex-col font-manrope border">
+<div class="mx-auto flex h-[100dvh] w-full max-w-sm flex-col font-manrope border bg-gray-100">
 	{@render children()}
 </div>

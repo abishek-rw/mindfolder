@@ -21,7 +21,7 @@
 		AppState.sendPrompt();
 	}}
 >
-	<Input placeholder="Search" class="h-10 w-full rounded-full" bind:value={AppState.prompt} />
+	<Input placeholder="Search" class="h-10 w-full rounded-full shadow-inner" bind:value={AppState.prompt} />
 	{#if AppState.prompt}
 		<Button
 			class="absolute right-3 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-all duration-300 disabled:opacity-50"

@@ -12,7 +12,7 @@
 		<!-- svelte-ignore element_invalid_self_closing_tag -->
 		<div class="bg-primary h-2 w-[2px]" />
 	</div>
-	<Progress value={mb} max={100} class="w-full" />
+	<Progress value={mb} max={100} class="w-full shadow-lg" />
 	<div class="flex items-center justify-between text-xs">
 		<div>0MB</div>
 		<div>100MB</div>

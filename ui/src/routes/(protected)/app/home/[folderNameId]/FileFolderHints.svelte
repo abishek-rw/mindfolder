@@ -8,7 +8,7 @@
 	<button onclick={()=>{
 		AppState.prompt = text
 		AppState.sendPrompt()
-	}} class="flex w-40 flex-shrink-0 items-center rounded-xl bg-gray-100 p-4 text-center text-xs">
+	}} class="flex w-40 shadow-lg overflow-visible flex-shrink-0 items-center rounded-xl bg-white p-4 text-center text-xs">
 		{text}
 	</button>
 {/snippet}

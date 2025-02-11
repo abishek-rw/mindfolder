@@ -50,4 +50,18 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+	.bevel {
+		border-radius: 50px;
+		background: #e0e0e0;
+		box-shadow:
+			25px 25px 51px #bebebe,
+			-25px -25px 51px #ffffff;
+	}
+	.indent {
+		border-radius: 50px;
+		background: #e0e0e0;
+		box-shadow:
+			inset 25px 25px 51px #bebebe,
+			inset -25px -25px 51px #ffffff;
+	}
 }

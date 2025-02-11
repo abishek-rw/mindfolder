@@ -13,7 +13,7 @@
 	<title>Home</title>
 </svelte:head>
 
-Home
+<div class="relative flex w-full items-center p-2 pt-3 capitalize">Home</div>
 <Progress mb={data.mbUsed ?? 0} />
 <UploadFreeSpace />
 <FoldersView />

@@ -38,7 +38,7 @@
 <div class="flex items-center justify-center gap-6 p-2 text-xs">
 	<div class="flex flex-col items-center justify-center">
 		<Button
-			class="h-8 w-8 rounded-full"
+			class="h-8 w-8 rounded-full border border-gray-400"
 			onclick={async (e) => {
 				e.preventDefault();
 				try {
@@ -66,7 +66,7 @@
 		<div>Upload</div>
 	</div>
 	<div class="flex flex-col items-center justify-center">
-		<Button class="h-8 w-8 rounded-full"><UsersRound /></Button>
+		<Button class="h-8 w-8 rounded-full shadow-md border border-gray-400"><UsersRound /></Button>
 		<div>Free Space</div>
 	</div>
 </div>
