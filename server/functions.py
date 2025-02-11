@@ -141,9 +141,9 @@ def group_files(files: List[Dict], group_by: str = "type"):
 
     elif group_by == "date":
         for file in valid_files:
-            if not file.get("created"):
+            if not file.get("file_date"):
                 continue
-            created_date = datetime.strptime(file["created"], "%Y-%m-%d %H:%M:%S")
+            created_date = datetime.strptime(file["file_date"], "%Y-%m-%d")
             year = created_date.year
             month = created_date.month
             day = created_date.day
@@ -158,9 +158,9 @@ def group_files(files: List[Dict], group_by: str = "type"):
 
     elif group_by == "month":
         for file in valid_files:
-            if not file.get("created"):
+            if not file.get("file_date"):
                 continue
-            created_date = datetime.strptime(file["created"], "%Y-%m-%d %H:%M:%S")
+            created_date = datetime.strptime(file["file_date"], "%Y-%m-%d")
             year = created_date.year
             month = created_date.month
 
@@ -172,9 +172,9 @@ def group_files(files: List[Dict], group_by: str = "type"):
 
     elif group_by == "year":
         for file in valid_files:
-            if not file.get("created"):
+            if not file.get("file_date"):
                 continue
-            created_date = datetime.strptime(file["created"], "%Y-%m-%d %H:%M:%S")
+            created_date = datetime.strptime(file["file_date"], "%Y-%m-%d")
             year = created_date.year
 
             if year not in groups:
@@ -183,6 +183,5 @@ def group_files(files: List[Dict], group_by: str = "type"):
 
     print("Groups: ", groups)
     return groups
-
 
 

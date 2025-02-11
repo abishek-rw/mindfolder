@@ -45,7 +45,7 @@
 			}
 			toast.success('OTP verified successfully', { id: 'login-otp' });
 			isLoading = false;
-			goto('/app');
+			goto('/app/home');
 		})();
 	});
 

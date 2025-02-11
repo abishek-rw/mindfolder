@@ -29,7 +29,7 @@
 		}
 		toast.success(`Nice to meet you, ${name}!`, { id: 'update-name' });
 		invalidateAll();
-		goto('/app');
+		goto('/app/home');
 	}
 </script>
 

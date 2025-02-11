@@ -8,6 +8,7 @@ export type FoldersReturnType = {
 		file_name: string;
 		upload_date: string;
 		upload_time: string;
+		download_url: string;
 	}[];
 }
 export async function handle({ event, resolve }) {
@@ -22,21 +23,22 @@ export async function handle({ event, resolve }) {
 			fetch(`${SERVER_URL}/list-files?user_email=${encodeURIComponent(session.user.email)}`),
 			fetch(`${SERVER_URL}/folder_size?user_email=${encodeURIComponent(session.user.email)}`),
 		]);
-		
+
 		const folders = (await listFilesResp.json()) as {
 			[key: string]: {
 				file_name: string;
 				upload_date: string;
 				upload_time: string;
+				download_url: string;
 			}[];
 		};
-		
+
 		const keys = Object.keys(folders);
 		const transformedFolders: FoldersReturnType[] = keys.map((key) => ({
 			folderName: key,
 			files: folders[key],
 		}));
-		
+
 		const userStorageUsedJson = (await userStorageUsedResp.json()) as {
 			files: string; // "num MB"
 		};

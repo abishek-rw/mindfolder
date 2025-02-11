@@ -7,7 +7,7 @@ from datetime import timedelta, datetime
 from typing import List, Dict, Optional, Tuple, Callable
 import re
 from pydantic import BaseModel
-from azure.storage.blob import BlobServiceClient
+from azure.storage.blob import BlobServiceClient, generate_blob_sas, BlobSasPermissions
 import uvicorn
 import logging
 from dotenv import load_dotenv
@@ -41,7 +41,6 @@ from docling_core.transforms.chunker.hybrid_chunker import HybridChunker
 from docling.pipeline.simple_pipeline import SimplePipeline
 from google.generativeai import GenerativeModel
 import google.generativeai as genai
-from chromadb.config import Settings
 
 
 load_dotenv()
@@ -75,10 +74,11 @@ connection_string = os.getenv("CONNECTION_STRING")
 container_name = os.getenv("CONTAINER_NAME")
 gemini_api = os.getenv("GEMINI_API_KEY")
 blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+sas_token = os.getenv("SAS_TOKEN")
 
 print("GMMA")
 # ChromaDB setup
-chroma_client = chromadb.PersistentClient(path="chroma_data", settings=Settings(anonymized_telemetry=False))
+chroma_client = chromadb.PersistentClient(path="chroma_data")
 collection = chroma_client.get_or_create_collection(
     name="mindfolder",
     metadata={"hnsw:space": "cosine"}
@@ -790,6 +790,8 @@ def parse_query(files: List[Dict], query: str, user_email: str, folder_name: Opt
         Example 9:
         Task: When is my ticket?
         Plan: Query files for the ticket date. #E1: query_cluster[{{"user_email": "{user_email}", "user_prompt": "When is my ticket?"}}]
+        
+        Today's date is: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
         """
 
     #     messages = [
@@ -1146,6 +1148,9 @@ async def list_files(user_email: str):
                 upload_date = upload_datetime.strftime("%d %B %Y")
                 upload_time = upload_datetime.strftime("%H:%M")
 
+                # Generate a public download URL using the SAS token
+                blob_url = f"https://{blob_service_client.account_name}.blob.core.windows.net/{container_name}/{blob.name}?{sas_token}"
+
                 # Add file to the corresponding folder in the dictionary
                 if folder_name not in folder_files_map:
                     folder_files_map[folder_name] = []
@@ -1153,7 +1158,8 @@ async def list_files(user_email: str):
                 folder_files_map[folder_name].append({
                     "file_name": file_name,
                     "upload_date": upload_date,
-                    "upload_time": upload_time
+                    "upload_time": upload_time,
+                    "download_url": blob_url  # Added Download Link
                 })
 
         return folder_files_map
