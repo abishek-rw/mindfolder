@@ -3,3 +3,4 @@
 **/*.min.js
 **/*.pdf
 **/*.env
+chroma_data

@@ -27,6 +27,20 @@ from docling.chunking import HybridChunker
 from llama_index.core.storage.docstore import SimpleDocumentStore
 import re
 from llama_index.core.schema import TextNode
+from llama_index.core.vector_stores.types import (
+    MetadataFilter,
+    MetadataFilters,
+)
+from llama_index.core.response_synthesizers import CompactAndRefine
+from llama_index.core.retrievers import QueryFusionRetriever
+from llama_index.core.query_engine import RetrieverQueryEngine
+from llama_index.core import Settings
+from llama_index.core.callbacks import CallbackManager, LlamaDebugHandler
+
+llama_debug = LlamaDebugHandler(print_trace_on_end=True)
+callback_manager = CallbackManager([llama_debug])
+
+Settings.callback_manager = callback_manager
 import nltk
 nltk.download('punkt_tab')
 
@@ -198,7 +212,7 @@ def init_vector_store(nodes, email: str):
         raise
 
 
-async def query_vector_store(email: str, query: str, filename: str = None):
+async def query_vector_store(email: str, query: str, filenames: list[str] = None):
     try:
         # Clean the email (remove @ and . and other non-alphanumeric, underscore, or hyphen)
         safe_email = re.sub(r"[^a-zA-Z0-9_-]+", "_", email)
@@ -214,20 +228,40 @@ async def query_vector_store(email: str, query: str, filename: str = None):
             r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", collection_name
         )
 
-        chroma_collection = chroma_client.get_or_create_collection(
-            collection_name, metadata={"hnsw:space": "cosine"}
+        vector_store = ChromaVectorStore.from_params(
+            collection_name=collection_name, persist_dir=CHROMA_PERSIST_DIR
         )
-        vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
-        storage_context = StorageContext.from_defaults(
+        hybrid_index = VectorStoreIndex.from_vector_store(
             vector_store=vector_store)
-        index = VectorStoreIndex.from_vector_store(
-            storage_context=storage_context, embed_model=embedder, vector_store=vector_store
+        filters = MetadataFilters(
+            filters=[MetadataFilter(key="file_path", value=fileId)
+                     for fileId in filenames],
+            condition="or",
+        ) if filenames else None
+        print("FILTERS", filters)
+        vector_retriever = hybrid_index.as_retriever(
+            vector_store_query_mode="default",
+            similarity_top_k=5
+        )
+        text_retriever = hybrid_index.as_retriever(
+            vector_store_query_mode="sparse",
+            similarity_top_k=5,  # interchangeable with sparse_top_k in this context
+        )
+        retriever = QueryFusionRetriever(
+            [vector_retriever, text_retriever],
+            similarity_top_k=5,
+            num_queries=1,  # set this to 1 to disable query generation
+            mode="relative_score",
+            use_async=False,
         )
 
-        query_engine = index.as_query_engine()
-        response = await query_engine.aquery(query)
-        print(f"Query successful for email: {email}, query: {query}")
-        return response
+        response_synthesizer = CompactAndRefine()
+        query_engine = RetrieverQueryEngine(
+            retriever=retriever,
+            # response_synthesizer=response_synthesizer,
+        )
+        response = query_engine.query(query)
+        return {"response": response.response}
     except Exception as e:
         print(f"Error querying vector store: {e}")
         raise

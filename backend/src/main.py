@@ -37,7 +37,7 @@ async def upload_file(file: UploadFile, email: str):
 
 @app.post("/rag")
 async def rag(prompt: str, email: str):
-    resp = await query_vector_store(prompt, email)
+    resp = await query_vector_store(email, prompt)
     return {
         "response": resp
     }
